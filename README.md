@@ -1,1 +1,524 @@
-# TugasRevoUDavin.github.io
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #6b73ff 0%, #9b59b6 50%, #7c3aed 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ===== CARD BASE ===== */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.75rem 2rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+
+    /* ===== GREETING CARD ===== */
+    .greeting-card {
+      text-align: center;
+    }
+
+    .clock {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #5b6ef5;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .date {
+      font-size: 1rem;
+      color: #666;
+      margin: 0.4rem 0 0.6rem;
+    }
+
+    .greeting-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    /* ===== GRID ROW ===== */
+    .grid-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    /* ===== FOCUS TIMER ===== */
+    .timer-card h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 1rem;
+    }
+
+    .timer-display {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #5b6ef5;
+      text-align: center;
+      margin: 0.5rem 0 1.25rem;
+      letter-spacing: 2px;
+    }
+
+    .timer-buttons {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 0.55rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-blue  { background: #5b6ef5; color: #fff; }
+    .btn-gray  { background: #e5e7eb; color: #374151; }
+    .btn-red   { background: #ef4444; color: #fff; }
+    .btn-green { background: #10b981; color: #fff; }
+    .btn-sm    { padding: 0.35rem 0.85rem; font-size: 0.82rem; }
+
+    /* ===== TO-DO LIST ===== */
+    .todo-card h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 1rem;
+    }
+
+    .todo-input-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .todo-input-row input {
+      flex: 1;
+      padding: 0.55rem 0.9rem;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .todo-input-row input:focus { border-color: #5b6ef5; }
+
+    .todo-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.5rem 0.6rem;
+      border-radius: 8px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .todo-item input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: #5b6ef5;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .todo-item .task-text {
+      flex: 1;
+      font-size: 0.92rem;
+      color: #374151;
+      cursor: pointer;
+      word-break: break-word;
+    }
+
+    .todo-item .task-text.done {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+
+    .todo-item .task-edit {
+      flex: 1;
+      padding: 0.2rem 0.5rem;
+      border: 1.5px solid #5b6ef5;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .todo-item-actions { display: flex; gap: 0.4rem; }
+
+    /* ===== QUICK LINKS ===== */
+    .links-card h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 1rem;
+    }
+
+    .links-input-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .links-input-row input {
+      flex: 1;
+      min-width: 100px;
+      padding: 0.55rem 0.9rem;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .links-input-row input:focus { border-color: #5b6ef5; }
+
+    .links-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .link-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #5b6ef5;
+      color: #fff;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .link-chip:hover { background: #4a5ce0; }
+
+    .link-chip .remove-link {
+      background: rgba(255,255,255,0.25);
+      border: none;
+      color: #fff;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .link-chip .remove-link:hover { background: rgba(255,255,255,0.45); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .grid-row { grid-template-columns: 1fr; }
+      body { padding: 1rem; }
+      .clock { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- GREETING -->
+    <div class="card greeting-card">
+      <div class="clock" id="clock">00:00:00</div>
+      <div class="date" id="date">-</div>
+      <div class="greeting-text" id="greeting">-</div>
+    </div>
+
+    <!-- TIMER + TODO -->
+    <div class="grid-row">
+
+      <!-- FOCUS TIMER -->
+      <div class="card timer-card">
+        <h2>Focus Timer</h2>
+        <div class="timer-display" id="timer-display">25:00</div>
+        <div class="timer-buttons">
+          <button class="btn btn-blue" id="btn-start" onclick="timerStart()">Start</button>
+          <button class="btn btn-gray" id="btn-stop" onclick="timerStop()">Stop</button>
+          <button class="btn btn-gray" onclick="timerReset()">Reset</button>
+        </div>
+      </div>
+
+      <!-- TO-DO LIST -->
+      <div class="card todo-card">
+        <h2>Tasks</h2>
+        <div class="todo-input-row">
+          <input type="text" id="todo-input" placeholder="Add a new task..." onkeydown="if(event.key==='Enter') addTask()" />
+          <button class="btn btn-blue" onclick="addTask()">Add</button>
+        </div>
+        <div class="todo-list" id="todo-list"></div>
+      </div>
+
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="card links-card">
+      <h2>Quick Links</h2>
+      <div class="links-input-row">
+        <input type="text" id="link-name" placeholder="Link name" />
+        <input type="text" id="link-url" placeholder="URL (e.g. https://google.com)" onkeydown="if(event.key==='Enter') addLink()" />
+        <button class="btn btn-blue" onclick="addLink()">Add Link</button>
+      </div>
+      <div class="links-grid" id="links-grid"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // ===== GREETING & CLOCK =====
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+
+      const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const day = days[now.getDay()];
+      const date = now.getDate();
+      const month = months[now.getMonth()];
+      const year = now.getFullYear();
+      document.getElementById('date').textContent = `${day}, ${month} ${date}, ${year}`;
+
+      const hour = now.getHours();
+      let greet = '';
+      if (hour >= 5 && hour < 12)       greet = '☀️ Good Morning';
+      else if (hour >= 12 && hour < 15) greet = '🌤️ Good Afternoon';
+      else if (hour >= 15 && hour < 19) greet = '🌇 Good Evening';
+      else                               greet = '🌙 Good Night';
+      document.getElementById('greeting').textContent = greet;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ===== FOCUS TIMER =====
+    let timerSeconds = 25 * 60;
+    let timerInterval = null;
+    let timerRunning = false;
+
+    function renderTimer() {
+      const m = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
+      const s = String(timerSeconds % 60).padStart(2, '0');
+      document.getElementById('timer-display').textContent = `${m}:${s}`;
+    }
+
+    function timerStart() {
+      if (timerRunning) return;
+      timerRunning = true;
+      document.getElementById('btn-start').textContent = 'Running...';
+      timerInterval = setInterval(() => {
+        if (timerSeconds <= 0) {
+          clearInterval(timerInterval);
+          timerRunning = false;
+          document.getElementById('btn-start').textContent = 'Start';
+          document.getElementById('timer-display').textContent = '00:00';
+          alert('⏰ Focus session complete! Take a break.');
+          return;
+        }
+        timerSeconds--;
+        renderTimer();
+      }, 1000);
+    }
+
+    function timerStop() {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      document.getElementById('btn-start').textContent = 'Start';
+    }
+
+    function timerReset() {
+      timerStop();
+      timerSeconds = 25 * 60;
+      renderTimer();
+    }
+
+    // ===== TO-DO LIST =====
+    let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function renderTasks() {
+      const list = document.getElementById('todo-list');
+      list.innerHTML = '';
+      tasks.forEach((task, i) => {
+        const item = document.createElement('div');
+        item.className = 'todo-item';
+        item.innerHTML = `
+          <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${i})" />
+          <span class="task-text ${task.done ? 'done' : ''}" ondblclick="startEdit(${i})">${task.text}</span>
+          <div class="todo-item-actions">
+            <button class="btn btn-gray btn-sm" onclick="startEdit(${i})">Edit</button>
+            <button class="btn btn-red btn-sm" onclick="deleteTask(${i})">Delete</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function addTask() {
+      const input = document.getElementById('todo-input');
+      const text = input.value.trim();
+      if (!text) return;
+      tasks.push({ text, done: false });
+      saveTasks();
+      renderTasks();
+      input.value = '';
+      input.focus();
+    }
+
+    function toggleTask(i) {
+      tasks[i].done = !tasks[i].done;
+      saveTasks();
+      renderTasks();
+    }
+
+    function deleteTask(i) {
+      tasks.splice(i, 1);
+      saveTasks();
+      renderTasks();
+    }
+
+    function startEdit(i) {
+      const list = document.getElementById('todo-list');
+      const items = list.querySelectorAll('.todo-item');
+      const item = items[i];
+      const span = item.querySelector('.task-text');
+      const actions = item.querySelector('.todo-item-actions');
+
+      const editInput = document.createElement('input');
+      editInput.type = 'text';
+      editInput.className = 'task-edit';
+      editInput.value = tasks[i].text;
+
+      const saveBtn = document.createElement('button');
+      saveBtn.className = 'btn btn-green btn-sm';
+      saveBtn.textContent = 'Save';
+      saveBtn.onclick = () => {
+        const val = editInput.value.trim();
+        if (val) { tasks[i].text = val; saveTasks(); }
+        renderTasks();
+      };
+
+      editInput.onkeydown = (e) => {
+        if (e.key === 'Enter') saveBtn.click();
+        if (e.key === 'Escape') renderTasks();
+      };
+
+      span.replaceWith(editInput);
+      actions.innerHTML = '';
+      actions.appendChild(saveBtn);
+      editInput.focus();
+    }
+
+    renderTasks();
+
+    // ===== QUICK LINKS =====
+    let links = JSON.parse(localStorage.getItem('quicklinks') || '[]');
+
+    // Default links if empty
+    if (links.length === 0) {
+      links = [
+        { name: 'Google', url: 'https://google.com' },
+        { name: 'Gmail', url: 'https://mail.google.com' },
+        { name: 'Calendar', url: 'https://calendar.google.com' }
+      ];
+      localStorage.setItem('quicklinks', JSON.stringify(links));
+    }
+
+    function saveLinks() {
+      localStorage.setItem('quicklinks', JSON.stringify(links));
+    }
+
+    function renderLinks() {
+      const grid = document.getElementById('links-grid');
+      grid.innerHTML = '';
+      links.forEach((link, i) => {
+        const chip = document.createElement('a');
+        chip.className = 'link-chip';
+        chip.href = link.url;
+        chip.target = '_blank';
+        chip.rel = 'noopener noreferrer';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = link.name;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-link';
+        removeBtn.textContent = '×';
+        removeBtn.title = 'Remove link';
+        removeBtn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          links.splice(i, 1);
+          saveLinks();
+          renderLinks();
+        };
+
+        chip.appendChild(nameSpan);
+        chip.appendChild(removeBtn);
+        grid.appendChild(chip);
+      });
+    }
+
+    function addLink() {
+      const nameInput = document.getElementById('link-name');
+      const urlInput = document.getElementById('link-url');
+      const name = nameInput.value.trim();
+      let url = urlInput.value.trim();
+      if (!name || !url) { alert('Isi nama dan URL dulu ya!'); return; }
+      if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+      links.push({ name, url });
+      saveLinks();
+      renderLinks();
+      nameInput.value = '';
+      urlInput.value = '';
+      nameInput.focus();
+    }
+
+    renderLinks();
+  </script>
+</body>
+</html>
